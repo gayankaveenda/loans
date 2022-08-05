@@ -1,6 +1,6 @@
 package com.eazybytes.loans.controller;
 
-import com.easybytes.accounts.model.Customer;
+import com.eazybytes.accounts.model.Customer;
 import com.eazybytes.loans.model.Loans;
 import com.eazybytes.loans.repository.LoansRepository;
 import org.springframework.beans.factory.annotation.Autowired;
