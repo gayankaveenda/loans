@@ -14,4 +14,7 @@ create table `loans` (
 
 
 insert into `loans` (`customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
-values (1, '2020-10-13','Home', 20000, 50000, 150000,'2020-10-13');
+values (1, '2022-03-20','Home', 650000, 50000, 600000,'2020-10-13');
+
+insert into `loans` (`customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
+values (2, '2022-05-11','Investment', 450000, 80000, 330000,'2020-10-13');
