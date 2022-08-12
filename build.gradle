@@ -3,12 +3,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
     id 'maven-publish'
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    id 'com.palantir.docker' version '0.34.0'
+    id 'com.palantir.docker-run' version '0.34.0'
 }
 
 repositories {
@@ -20,14 +16,34 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.eazybytes:accounts:1.0.0'
+    implementation 'com.eazybytes:accounts:1.0.0-plain'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+version = '1.0'
 
+docker {
+    name "${project.name}:${project.version}"
+    files "$buildDir/libs/${project.name}-${project.version}.jar"
+    buildArgs([JAR_FILE: "${project.name}-${project.version}.jar"])
+}
+
+dockerRun {
+    name "${project.name}"
+    image "${project.name}:${project.version}"
+    ports '8090:8090'
+    clean true
+    daemonize false
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 tasks.named('test') {
     useJUnitPlatform()
 }
@@ -36,10 +52,6 @@ tasks.withType(GenerateModuleMetadata) {
     enabled = false
 }
 
-jar {
-    enabled = true
-    archiveClassifier = '' //use empty string
-}
 publishing {
     publications {
         maven(MavenPublication) {
